@@ -39,31 +39,22 @@ Safe sequence: C1 C3 C4 C0 C2
 
 #include <stdio.h>
 
-#define NUMBER_OF_CUSTOMERS
-#define NUMBER_OF_RESOURCES
-/* the available amount of each resource */
-int available[NUMBER_OF_RESOURCES];
-/*the maximum demand of each customer */
-int maximum[NUMBER_OF_CUSTOMERS][NUMBER_OF_RESOURCES];
-/* the amount currently allocated to each customer */
-int allocation[NUMBER_OF_CUSTOMERS][NUMBER_OF_RESOURCES];
-/* the remaining need of each customer */
-int need[NUMBER_OF_CUSTOMERS][NUMBER_OF_RESOURCES];
+// No longer use define, so I can actually dynamically assign to them
+int NUMBER_OF_CUSTOMERS;
+int NUMBER_OF_RESOURCES;
 
-/*
-The assignment description here:
-The program dynamically takes input for the number of customers, number of resource types, available instances,
-maximum demand, current allocation, and a new resource request. Each section of input represents a distinct part of the
-Banker's Algorithm system model.
-Completely doesn't work with the provided code above... I guess I am supposed to just redesign that? Weird.
-*/
-
-
+// Instead of defining arrays, which made no sense, I am defining pointers to arrays globally, which I will assign to later.
+int *available;
+int **maximum;
+int **allocation;
+int **need;
 
 int main() {
-    int num_resources;
+    printf("Enter number of customers (processes): ");
+    scanf("%d", &NUMBER_OF_CUSTOMERS);
+    
     printf("Enter number of resources: ");
-    scanf("%d", &num_resources);
+    scanf("%d", &NUMBER_OF_RESOURCES);
 
     return 0;
 }
