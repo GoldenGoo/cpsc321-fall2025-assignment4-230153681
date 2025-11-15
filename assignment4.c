@@ -56,5 +56,29 @@ int main() {
     printf("Enter number of resources: ");
     scanf("%d", &NUMBER_OF_RESOURCES);
 
+    // Now I gotta do all the memory allocation.
+    available= (int *)malloc(NUMBER_OF_RESOURCES * sizeof(int));
+    maximum= (int **)malloc(NUMBER_OF_CUSTOMERS * sizeof(int *));
+    allocation= (int **)malloc(NUMBER_OF_CUSTOMERS * sizeof(int *));
+    need= (int **)malloc(NUMBER_OF_CUSTOMERS * sizeof(int *));
+
+    for(int i= 0; i<NUMBER_OF_CUSTOMERS; i++){
+        maximum[i]= (int *)malloc(NUMBER_OF_RESOURCES * sizeof(int));
+        allocation[i]= (int *)malloc(NUMBER_OF_RESOURCES * sizeof(int));
+        need[i]= (int *)malloc(NUMBER_OF_RESOURCES * sizeof(int));
+    }
+
+
+    // I'll also set up all the memory to be freed at the end of main
+    for(int i= 0; i<NUMBER_OF_CUSTOMERS; i++){
+        free(maximum[i]);
+        free(allocation[i]);
+        free(need[i]);
+    }
+    free(maximum);
+    free(allocation);
+    free(need);
+    free(available);
+    
     return 0;
 }
