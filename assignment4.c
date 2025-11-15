@@ -13,11 +13,8 @@ Instructions:
 Write a program that implements the Banker's algorithm. Customers request and release
 resources from the bank. The banker will grant a request only if it leaves the system in a safe state. A request that leaves the
 system in an unsafe state will be denied.
-*/
 
-
-/*
-Sample Input 1
+Sample Input 1:
 Enter number of customers (processes): 5
 Enter number of resources: 3
 Enter number of instances of each resource type (3 values): 10 5 7
@@ -39,3 +36,25 @@ Sample Output 1:
 State Safe
 Safe sequence: C1 C3 C4 C0 C2
 */
+
+#include <stdio.h>
+
+#define NUMBER_OF_CUSTOMERS
+#define NUMBER_OF_RESOURCES
+/* the available amount of each resource */
+int available[NUMBER_OF_RESOURCES];
+/*the maximum demand of each customer */
+int maximum[NUMBER_OF_CUSTOMERS][NUMBER_OF_RESOURCES];
+/* the amount currently allocated to each customer */
+int allocation[NUMBER_OF_CUSTOMERS][NUMBER_OF_RESOURCES];
+/* the remaining need of each customer */
+int need[NUMBER_OF_CUSTOMERS][NUMBER_OF_RESOURCES];
+
+
+int main() {
+    int num_resources;
+    printf("Enter number of resources: ");
+    scanf("%d", &num_resources);
+
+    return 0;
+}
