@@ -54,19 +54,13 @@ int **need;
 
 /*
 This algorithm tests whether a request is safe for the current state.
-It returns a bool value, true if safe, false if unsafe.
+It is side effecting, and will print Safe and the sequence to determine safety if true, 
+or unsafe otherwise.
 */
-bool safety_algorithm(int *request){
+void safety_algorithm(int *request){
 
 }
 
-/*
-This function implements the bakers algorithm.
-It has no return, but will in a side effecting manner print the safe resource allocation sequence to the terminal.
-*/
-void bankers_algorithm(int *request){
-
-}
 
 int main() {
     printf("Enter number of customers (processes): ");
@@ -117,14 +111,11 @@ int main() {
             scanf("%d", &request[i]);
         } 
 
-    bool safe= safety_algortihm(request);
-    if (safe){
-        printf("\nState Safe\nSafe sequence: ");
-        bankers_algorithm(request);
-    }
-    else{
-        printf("\nState Unsafe");
-    }
+
+    // The rest of the processing happens in this method, which will also print the output.
+    // I know it is side effecting and that isn't great, but I don't wish to return a string and then
+    // just print that, so this is fine for me.
+    safety_algortihm(request);
 
 
     // I'll also set up all the memory to be freed at the end of main
