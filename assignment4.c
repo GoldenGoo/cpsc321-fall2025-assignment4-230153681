@@ -39,6 +39,7 @@ Safe sequence: C1 C3 C4 C0 C2
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <stdbool.h>
 
 // No longer use define, so I can actually dynamically assign to them
 int NUMBER_OF_CUSTOMERS;
@@ -50,6 +51,22 @@ int *total_instances; // Don't know why this was left out in the assingment desc
 int **maximum;
 int **allocation;
 int **need;
+
+/*
+This algorithm tests whether a request is safe for the current state.
+It returns a bool value, true if safe, false if unsafe.
+*/
+bool safety_algorithm(int *request){
+
+}
+
+/*
+This function implements the bakers algorithm.
+It has no return, but will in a side effecting manner print the safe resource allocation sequence to the terminal.
+*/
+void bankers_algorithm(int *request){
+
+}
 
 int main() {
     printf("Enter number of customers (processes): ");
@@ -92,6 +109,21 @@ int main() {
         for (int j= 0; j<NUMBER_OF_RESOURCES; j++){
             scanf("%d", &allocation[i][j]);
         }
+    }
+    
+    int request[NUMBER_OF_RESOURCES+1];
+    printf("Enter Resource Request: ");
+    for (int i= 0; i<NUMBER_OF_RESOURCES + 1; i++){
+            scanf("%d", &request[i]);
+        } 
+
+    bool safe= safety_algortihm(request);
+    if (safe){
+        printf("\nState Safe\nSafe sequence: ");
+        bankers_algorithm(request);
+    }
+    else{
+        printf("\nState Unsafe");
     }
 
 
