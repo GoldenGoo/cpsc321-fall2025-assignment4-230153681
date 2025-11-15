@@ -50,6 +50,15 @@ int allocation[NUMBER_OF_CUSTOMERS][NUMBER_OF_RESOURCES];
 /* the remaining need of each customer */
 int need[NUMBER_OF_CUSTOMERS][NUMBER_OF_RESOURCES];
 
+/*
+The assignment description here:
+The program dynamically takes input for the number of customers, number of resource types, available instances,
+maximum demand, current allocation, and a new resource request. Each section of input represents a distinct part of the
+Banker's Algorithm system model.
+Completely doesn't work with the provided code above... I guess I am supposed to just redesign that? Weird.
+*/
+
+
 
 int main() {
     int num_resources;
