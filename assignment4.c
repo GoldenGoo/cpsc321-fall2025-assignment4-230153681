@@ -38,6 +38,7 @@ Safe sequence: C1 C3 C4 C0 C2
 */
 
 #include <stdio.h>
+#include <stdlib.h>
 
 // No longer use define, so I can actually dynamically assign to them
 int NUMBER_OF_CUSTOMERS;
@@ -46,7 +47,7 @@ int NUMBER_OF_RESOURCES;
 // Instead of defining arrays, which made no sense, I am defining pointers to arrays globally, which I will assign to later.
 int *available;
 int *total_instances; // Don't know why this was left out in the assingment description if the sample output asks for it.
-int **maximum_demand;
+int **maximum;
 int **allocation;
 int **need;
 
@@ -60,12 +61,12 @@ int main() {
     // Now I gotta do all the memory allocation.
     available= (int *)malloc(NUMBER_OF_RESOURCES * sizeof(int));
     total_instances= (int *)malloc(NUMBER_OF_RESOURCES * sizeof(int));
-    maximum_demand= (int **)malloc(NUMBER_OF_CUSTOMERS * sizeof(int *));
+    maximum= (int **)malloc(NUMBER_OF_CUSTOMERS * sizeof(int *));
     allocation= (int **)malloc(NUMBER_OF_CUSTOMERS * sizeof(int *));
     need= (int **)malloc(NUMBER_OF_CUSTOMERS * sizeof(int *));
 
     for(int i= 0; i<NUMBER_OF_CUSTOMERS; i++){
-        maximum_demand[i]= (int *)malloc(NUMBER_OF_RESOURCES * sizeof(int));
+        maximum[i]= (int *)malloc(NUMBER_OF_RESOURCES * sizeof(int));
         allocation[i]= (int *)malloc(NUMBER_OF_RESOURCES * sizeof(int));
         need[i]= (int *)malloc(NUMBER_OF_RESOURCES * sizeof(int));
     }
@@ -78,15 +79,29 @@ int main() {
     for(int i= 0; i<NUMBER_OF_RESOURCES; i++){
         scanf("%d", &available[i]);
     }
+    printf("Enter maximum demand matrix (%d x %d): \n", NUMBER_OF_CUSTOMERS, NUMBER_OF_RESOURCES); // The sample output has a bug on this line.
+    for(int i= 0; i<NUMBER_OF_CUSTOMERS; i++){
+        printf("Customer %d: ", i);
+        for (int j= 0; j<NUMBER_OF_RESOURCES; j++){
+            scanf("%d", &maximum[i][j]);
+        }
+    }
+    printf("Enter current allocation matrix (%d x %d): \n", NUMBER_OF_CUSTOMERS, NUMBER_OF_RESOURCES); // The sample output has a bug on this line too.
+    for(int i= 0; i<NUMBER_OF_CUSTOMERS; i++){
+        printf("Customer %d: ", i);
+        for (int j= 0; j<NUMBER_OF_RESOURCES; j++){
+            scanf("%d", &allocation[i][j]);
+        }
+    }
 
 
     // I'll also set up all the memory to be freed at the end of main
     for(int i= 0; i<NUMBER_OF_CUSTOMERS; i++){
-        free(maximum_demand[i]);
+        free(maximum[i]);
         free(allocation[i]);
         free(need[i]);
     }
-    free(maximum_demand);
+    free(maximum);
     free(allocation);
     free(need);
     free(total_instances);
