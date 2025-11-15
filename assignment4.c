@@ -45,7 +45,8 @@ int NUMBER_OF_RESOURCES;
 
 // Instead of defining arrays, which made no sense, I am defining pointers to arrays globally, which I will assign to later.
 int *available;
-int **maximum;
+int *total_instances; // Don't know why this was left out in the assingment description if the sample output asks for it.
+int **maximum_demand;
 int **allocation;
 int **need;
 
@@ -58,27 +59,38 @@ int main() {
 
     // Now I gotta do all the memory allocation.
     available= (int *)malloc(NUMBER_OF_RESOURCES * sizeof(int));
-    maximum= (int **)malloc(NUMBER_OF_CUSTOMERS * sizeof(int *));
+    total_instances= (int *)malloc(NUMBER_OF_RESOURCES * sizeof(int));
+    maximum_demand= (int **)malloc(NUMBER_OF_CUSTOMERS * sizeof(int *));
     allocation= (int **)malloc(NUMBER_OF_CUSTOMERS * sizeof(int *));
     need= (int **)malloc(NUMBER_OF_CUSTOMERS * sizeof(int *));
 
     for(int i= 0; i<NUMBER_OF_CUSTOMERS; i++){
-        maximum[i]= (int *)malloc(NUMBER_OF_RESOURCES * sizeof(int));
+        maximum_demand[i]= (int *)malloc(NUMBER_OF_RESOURCES * sizeof(int));
         allocation[i]= (int *)malloc(NUMBER_OF_RESOURCES * sizeof(int));
         need[i]= (int *)malloc(NUMBER_OF_RESOURCES * sizeof(int));
+    }
+
+    printf("Enter number of instances of each resource type (%d values): ", NUMBER_OF_RESOURCES);
+    for(int i= 0; i<NUMBER_OF_RESOURCES; i++){
+        scanf("%d", &total_instances[i]);
+    }
+    printf("Enter available resources (%d values): ", NUMBER_OF_RESOURCES);
+    for(int i= 0; i<NUMBER_OF_RESOURCES; i++){
+        scanf("%d", &available[i]);
     }
 
 
     // I'll also set up all the memory to be freed at the end of main
     for(int i= 0; i<NUMBER_OF_CUSTOMERS; i++){
-        free(maximum[i]);
+        free(maximum_demand[i]);
         free(allocation[i]);
         free(need[i]);
     }
-    free(maximum);
+    free(maximum_demand);
     free(allocation);
     free(need);
+    free(total_instances);
     free(available);
-    
+
     return 0;
 }
