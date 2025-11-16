@@ -13,7 +13,8 @@ Instructions:
 Write a program that implements the Banker's algorithm. Customers request and release
 resources from the bank. The banker will grant a request only if it leaves the system in a safe state. A request that leaves the
 system in an unsafe state will be denied.
-
+*/
+/*
 Sample Input 1:
 Enter number of customers (processes): 5
 Enter number of resources: 3
@@ -52,13 +53,44 @@ int **maximum;
 int **allocation;
 int **need;
 
+/* 
+Given 2 vectors of equal size, A and B, this method compares them and returns true
+if A is <= B, otherwise it returns false.
+*/
+bool vector_LTorE(int *A, int *B, int size){
+    for (int i= 0; i<size; i++){
+        if (A[i] > B[i]) {
+            return false;
+        }
+    }
+    return true;
+}
+
 /*
 This algorithm tests whether a request is safe for the current state.
 It is side effecting, and will print Safe and the sequence to determine safety if true, 
 or unsafe otherwise.
 */
 void safety_algorithm(int *request){
-
+    /*
+    psuedocode:
+    Step 1:
+    Initialize
+    Work = Available
+    Finish[i] = false for all i = 0, 1, …, n – 1
+    Step 2:
+    Find an index i such that both:
+    Finish[i] == false
+    Need[i] ≤ Work
+    If no such i exists, go to Step 4.
+    Step 3:
+    If such an i is found:
+    Work = Work + Allocation[i]
+    Finish[i] = true
+    Go back to Step 2
+    Step 4:
+    If Finish[i] == true for all i, then the system is in a safe state.
+    */
 }
 
 
@@ -102,6 +134,12 @@ int main() {
         printf("Customer %d: ", i);
         for (int j= 0; j<NUMBER_OF_RESOURCES; j++){
             scanf("%d", &allocation[i][j]);
+        }
+    }
+    for (int i = 0; i < NUMBER_OF_CUSTOMERS; i++) {
+        for (int j = 0; j < NUMBER_OF_RESOURCES; j++) {
+            need[i][j] = maximum[i][j] - allocation[i][j]; // This assumes the user isn't messing around and providing invalid inputs.
+            // If I wanted to not assume that I would put in a check here and throw an error.
         }
     }
     
