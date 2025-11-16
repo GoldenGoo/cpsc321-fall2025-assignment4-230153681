@@ -71,7 +71,7 @@ This algorithm tests whether the system is in a safe state.
 It is side effecting, and will print Safe and the sequence to determine safety if true, 
 or unsafe otherwise.
 */
-void safety_algorithm(int *request){
+void safety_algorithm(){
     /*
     psuedocode:
     Step 1:
@@ -130,7 +130,7 @@ void safety_algorithm(int *request){
         printf("State Safe\n");
         printf("Safe sequence: ");
         for (int i = 0; i < NUMBER_OF_CUSTOMERS; i++) {
-            printf("C%d%s ", sequence[i]);
+            printf("C%d ", sequence[i]);
         }
         printf("\n");
     } else {
@@ -207,7 +207,7 @@ int main() {
         available[j] =available[j] - request[j+1];
     }
     for (int j= 0; j<NUMBER_OF_RESOURCES; j++){
-        allocation[request[0]][j]= allocation[request[0]][j] - request[j+1];
+        allocation[request[0]][j]= allocation[request[0]][j] + request[j+1];
     }
     for (int j= 0; j<NUMBER_OF_RESOURCES; j++){
         need[request[0]][j]= need[request[0]][j] - request[j+1];
@@ -218,7 +218,7 @@ int main() {
     // The rest of the processing happens in this method, which will also print the output.
     // I know it is side effecting and that isn't great, but I don't wish to return a string and then
     // just print that, so this is fine for me.
-    safety_algortihm();
+    safety_algorithm();
 
 
     // I'll also set up all the memory to be freed at the end of main
