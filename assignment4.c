@@ -67,7 +67,7 @@ bool vector_LTorE(int *A, int *B, int size){
 }
 
 /*
-This algorithm tests whether a request is safe for the current state.
+This algorithm tests whether the system is in a safe state.
 It is side effecting, and will print Safe and the sequence to determine safety if true, 
 or unsafe otherwise.
 */
@@ -91,6 +91,51 @@ void safety_algorithm(int *request){
     Step 4:
     If Finish[i] == true for all i, then the system is in a safe state.
     */
+    
+    // Step 1:
+    int work[NUMBER_OF_RESOURCES];
+    for (int i= 0; i< NUMBER_OF_RESOURCES; i++){
+        work[i]= available[i];
+    }
+    bool finish[NUMBER_OF_CUSTOMERS];
+    for (int i= 0; i< NUMBER_OF_CUSTOMERS; i++){
+        finish[i]= false;
+    }
+    int sequence[NUMBER_OF_CUSTOMERS]; // Using this variable to make printing easier later.
+    int sequence_index= 0;
+
+    int count = 0;
+    while(count< NUMBER_OF_CUSTOMERS){ // while loop is for restarting step 2
+        bool found = false; // is needed for an early exit later
+        //Step 2:
+        for (int i= 0; i<NUMBER_OF_CUSTOMERS; i++){
+            if(finish[i]==false && vector_LTorE(need[i], work, NUMBER_OF_RESOURCES)){
+                //Step 3:
+                for (int j= 0; j<NUMBER_OF_RESOURCES; j++){
+                    work[j] += allocation[i][j];
+                }
+                finish[i] = true;
+                sequence[sequence_index++] = i;
+                found = true;
+                count++; // num of customers processed goes up by one
+                break; // break will exit the for loop, preventing the next lines, and restarting step 2.
+            } 
+        }
+        if (!found && count<NUMBER_OF_CUSTOMERS) {// if we reached here, we are either done (count>num customers), or we broke out of the for, and found is true
+            break; 
+        } 
+    }
+    //Step 4:
+    if (count == NUMBER_OF_CUSTOMERS) {
+        printf("State Safe\n");
+        printf("Safe sequence: ");
+        for (int i = 0; i < NUMBER_OF_CUSTOMERS; i++) {
+            printf("C%d%s ", sequence[i]);
+        }
+        printf("\n");
+    } else {
+        printf("State Unsafe\n");
+    }
 }
 
 
@@ -149,11 +194,31 @@ int main() {
             scanf("%d", &request[i]);
         } 
 
+    int *request_resources = &request[1]; // just the request array stripped of the  customer ID
+    if (!vector_LTorE(request_resources, available, NUMBER_OF_RESOURCES)){
+        fprintf(stderr, "Error: Invalid request");
+        exit(EXIT_FAILURE);
+    }
+    // I had a big debate about whether I should grant the request and affect the system state, or create
+    // temporary variables that represent the system after the request has been granted, but the assignment
+    // spec does not call for this in any way, so I am just going to grant the request, then if this is being 
+    // used in any 'real' system, if the request is determined to be unsafe just make sure to ungrant it.
+    for (int j= 0; j<NUMBER_OF_RESOURCES; j++){
+        available[j] =available[j] - request[j+1];
+    }
+    for (int j= 0; j<NUMBER_OF_RESOURCES; j++){
+        allocation[request[0]][j]= allocation[request[0]][j] - request[j+1];
+    }
+    for (int j= 0; j<NUMBER_OF_RESOURCES; j++){
+        need[request[0]][j]= need[request[0]][j] - request[j+1];
+    }
+    
+
 
     // The rest of the processing happens in this method, which will also print the output.
     // I know it is side effecting and that isn't great, but I don't wish to return a string and then
     // just print that, so this is fine for me.
-    safety_algortihm(request);
+    safety_algortihm();
 
 
     // I'll also set up all the memory to be freed at the end of main
