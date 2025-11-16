@@ -13,9 +13,8 @@ Instructions:
 Write a program that implements the Banker's algorithm. Customers request and release
 resources from the bank. The banker will grant a request only if it leaves the system in a safe state. A request that leaves the
 system in an unsafe state will be denied.
-*/
-/*
-Sample Input 1:
+
+Sample Output: (Note, order of the safe sequence may vary depending on implementation)
 Enter number of customers (processes): 5
 Enter number of resources: 3
 Enter number of instances of each resource type (3 values): 10 5 7
@@ -33,7 +32,6 @@ Customer 2: 3 0 2
 Customer 3: 2 1 1
 Customer 4: 0 0 2
 Enter Resource Request: 1 1 0 2
-Sample Output 1:
 State Safe
 Safe sequence: C1 C3 C4 C0 C2
 */
@@ -212,13 +210,16 @@ int main() {
     for (int j= 0; j<NUMBER_OF_RESOURCES; j++){
         need[request[0]][j]= need[request[0]][j] - request[j+1];
     }
-    
-
 
     // The rest of the processing happens in this method, which will also print the output.
     // I know it is side effecting and that isn't great, but I don't wish to return a string and then
     // just print that, so this is fine for me.
     safety_algorithm();
+
+    // This is where I would do the "ungranting" of the request if it put the algorithm in an unsafe state.
+    // The process would be: change safety algorithm to return a boolean, if true, keep it how it is,
+    // if false, restore the system by doing the same 3 for loops above, just with the sign of adding 
+    // or subtracting the request flipped.
 
 
     // I'll also set up all the memory to be freed at the end of main
